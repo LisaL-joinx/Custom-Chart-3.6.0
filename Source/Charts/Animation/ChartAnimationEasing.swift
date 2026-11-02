@@ -341,7 +341,10 @@ internal struct EasingFunctions
         let s: TimeInterval = 1.70158
         var position: TimeInterval = elapsed / duration
         position -= 1.0
-        return Double( position * position * ((s + 1.0) * position + s) + 1.0 )
+        // 拆分運算式，避免部分 Swift 編譯器的型別推導超出限制。
+        let squared: Double = position * position
+        let curve: Double = (s + 1.0) * position + s
+        return squared * curve + 1.0
     }
     
     internal static let EaseInOutBack = { (elapsed: TimeInterval, duration: TimeInterval) -> Double in
